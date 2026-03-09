@@ -1,0 +1,1470 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EE Platform - Energy Efficiency Investment Platform</title>
+    <style>
+        :root {
+            --color-primary: #2563eb;
+            --color-primary-hover: #1d4ed8;
+            --color-success: #10b981;
+            --color-warning: #f59e0b;
+            --color-danger: #ef4444;
+            --color-bg: #f8fafc;
+            --color-surface: #ffffff;
+            --color-border: #e2e8f0;
+            --color-text: #1e293b;
+            --color-text-muted: #64748b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: var(--color-surface);
+            border-bottom: 1px solid var(--color-border);
+            padding: 1.5rem 0;
+            margin-bottom: 2rem;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-primary);
+        }
+
+        nav {
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav button {
+            background: none;
+            border: none;
+            color: var(--color-text-muted);
+            font-size: 0.95rem;
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        nav button:hover,
+        nav button.active {
+            background: var(--color-bg);
+            color: var(--color-text);
+        }
+
+        .main-content {
+            background: var(--color-surface);
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--color-text);
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--color-text);
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+            color: var(--color-text);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--color-text);
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--color-border);
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--color-primary);
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+
+        .btn-primary {
+            background: var(--color-primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--color-primary-hover);
+        }
+
+        .btn-secondary {
+            background: var(--color-border);
+            color: var(--color-text);
+        }
+
+        .btn-secondary:hover {
+            background: #cbd5e1;
+        }
+
+        .grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .grid-2 {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .grid-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        @media (max-width: 768px) {
+
+            .grid-2,
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
+
+        .placeholder-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .placeholder-card h3 {
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+
+        .risk-meter {
+            margin: 2rem 0;
+            padding: 2rem;
+            background: #f8fafc;
+            border-radius: 8px;
+            border: 2px solid var(--color-border);
+        }
+
+        .risk-score-display {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .risk-score-number {
+            font-size: 4rem;
+            font-weight: 700;
+            margin: 1rem 0;
+        }
+
+        .risk-score-number.low {
+            color: var(--color-success);
+        }
+
+        .risk-score-number.medium {
+            color: var(--color-warning);
+        }
+
+        .risk-score-number.high {
+            color: var(--color-danger);
+        }
+
+        .risk-bar {
+            width: 100%;
+            height: 40px;
+            background: linear-gradient(to right, #10b981 0%, #f59e0b 50%, #ef4444 100%);
+            border-radius: 20px;
+            position: relative;
+            margin: 1.5rem 0;
+        }
+
+        .risk-indicator {
+            position: absolute;
+            top: -10px;
+            width: 4px;
+            height: 60px;
+            background: #1e293b;
+            transition: left 0.5s ease;
+        }
+
+        .risk-categories {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .risk-category-card {
+            padding: 1rem;
+            border: 1px solid var(--color-border);
+            border-radius: 6px;
+            background: white;
+        }
+
+        .risk-category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .risk-category-score {
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+
+        .risk-details {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: white;
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+        }
+
+        .risk-detail-item {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--color-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .risk-detail-item:last-child {
+            border-bottom: none;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .badge-success {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .badge-warning {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .badge-danger {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--color-primary);
+            margin: 0.5rem 0;
+        }
+
+        .stat-label {
+            color: var(--color-text-muted);
+            font-size: 0.875rem;
+        }
+
+        .project-list {
+            margin-top: 2rem;
+        }
+
+        .project-item {
+            background: white;
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .project-item:hover {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-color: var(--color-primary);
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .project-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .project-meta {
+            display: flex;
+            gap: 2rem;
+            color: var(--color-text-muted);
+            font-size: 0.875rem;
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+        }
+
+        .alert-info {
+            background: #dbeafe;
+            color: #1e40af;
+            border: 1px solid #93c5fd;
+        }
+
+        .range-input {
+            width: 100%;
+            margin: 1rem 0;
+        }
+
+        .range-value {
+            display: inline-block;
+            background: var(--color-primary);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-weight: 500;
+            margin-left: 1rem;
+        }
+
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: help;
+            color: var(--color-text-muted);
+            margin-left: 0.25rem;
+        }
+
+        .tooltip:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 0.5rem;
+            background: #1e293b;
+            color: white;
+            border-radius: 4px;
+            white-space: nowrap;
+            font-size: 0.875rem;
+            z-index: 1000;
+        }
+
+        .user-actions {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .btn-icon {
+            background: none;
+            border: none;
+            color: var(--color-text-muted);
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .btn-icon:hover {
+            background: var(--color-bg);
+            color: var(--color-text);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--color-surface);
+            border-radius: 8px;
+            padding: 2rem;
+            max-width: 400px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--color-text-muted);
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+        }
+
+        .modal-close:hover {
+            background: var(--color-bg);
+            color: var(--color-text);
+        }
+
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            border-bottom: 2px solid var(--color-border);
+            margin-bottom: 1.5rem;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            color: var(--color-text-muted);
+            font-weight: 500;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -2px;
+            transition: all 0.2s;
+        }
+
+        .tab-btn:hover {
+            color: var(--color-text);
+        }
+
+        .tab-btn.active {
+            color: var(--color-primary);
+            border-bottom-color: var(--color-primary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <img src="100240-Picsart-BackgroundRemover.jpg" alt="EE Platform Logo"
+                    style="height:48px; width:auto; vertical-align:middle; margin-right:10px;">
+                EE Platform
+            </div>
+            <nav>
+                <button class="nav-btn active" data-page="dashboard">Dashboard</button>
+                <button class="nav-btn" data-page="projects">Projects</button>
+                <button class="nav-btn" data-page="risk-assessment">Risk Assessment</button>
+                <button class="nav-btn" data-page="funding">Funding Finder</button>
+                <button class="nav-btn" data-page="analytics">Analytics</button>
+            </nav>
+            <div class="user-actions">
+                <button class="btn-icon" onclick="showLogin()" title="Log In">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+                        <polyline points="10 17 15 12 10 7"></polyline>
+                        <line x1="15" y1="12" x2="3" y2="12"></line>
+                    </svg>
+                </button>
+                <button class="btn-icon" onclick="showAccount()" title="Account">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Dashboard Page -->
+        <div id="dashboard" class="page active">
+            <div class="main-content">
+                <h1>Dashboard Overview</h1>
+
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">Total Projects</div>
+                        <div class="stat-value">47</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Active Investments</div>
+                        <div class="stat-value">฿182M</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Energy Saved (MWh)</div>
+                        <div class="stat-value">15,420</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">CO₂ Avoided (tons)</div>
+                        <div class="stat-value">8,340</div>
+                    </div>
+                </div>
+
+                <div class="placeholder-card">
+                    <h3>📊 Real-time Energy Monitoring</h3>
+                    <p>Live energy consumption tracking and anomaly detection across all connected facilities</p>
+                </div>
+
+                <h2>Recent Projects</h2>
+                <div class="project-list">
+                    <div class="project-item">
+                        <div class="project-header">
+                            <div class="project-title">LED Retrofit - Central Mall</div>
+                            <span class="badge badge-success">Low Risk</span>
+                        </div>
+                        <div class="project-meta">
+                            <span>Investment: ฿2.5M</span>
+                            <span>Expected Savings: 35%</span>
+                            <span>Payback: 3.2 years</span>
+                        </div>
+                    </div>
+
+                    <div class="project-item">
+                        <div class="project-header">
+                            <div class="project-title">HVAC Optimization - Factory Complex</div>
+                            <span class="badge badge-warning">Medium Risk</span>
+                        </div>
+                        <div class="project-meta">
+                            <span>Investment: ฿8.9M</span>
+                            <span>Expected Savings: 28%</span>
+                            <span>Payback: 5.1 years</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Projects Page -->
+        <div id="projects" class="page">
+            <div class="main-content">
+                <h1>Project Management</h1>
+
+                <div class="placeholder-card">
+                    <h3>📋 Project Registry & Tracking</h3>
+                    <p>Central repository for all EE projects with real-time status updates, M&V reports, and
+                        performance tracking</p>
+                </div>
+
+                <div class="alert alert-info">
+                    This module will integrate with e-Service for automated regulatory reporting for controlled
+                    factories and buildings
+                </div>
+            </div>
+        </div>
+
+        <!-- Risk Assessment Page -->
+        <div id="risk-assessment" class="page">
+            <div class="main-content">
+                <h1>Standardized Risk Scoring & Segmentation</h1>
+
+                <p style="margin-bottom: 2rem; color: var(--color-text-muted);">
+                    Comprehensive risk assessment based on technical, financial, organizational, and performance
+                    factors.
+                    This scoring system helps investors and financial institutions make informed decisions about EE
+                    project investments.
+                </p>
+
+                <div class="grid grid-2">
+                    <div>
+                        <h2>Project Information</h2>
+
+                        <div class="form-group">
+                            <label>Project Type</label>
+                            <select id="projectType">
+                                <option value="lighting">Lighting Retrofit</option>
+                                <option value="hvac">HVAC Optimization</option>
+                                <option value="motors">Motor & VFD Upgrade</option>
+                                <option value="building">Building Envelope</option>
+                                <option value="controls">Energy Management System</option>
+                                <option value="chiller">Chiller Replacement</option>
+                                <option value="solar">Solar PV Integration</option>
+                                <option value="comprehensive">Comprehensive Retrofit</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Facility Type</label>
+                            <select id="facilityType">
+                                <option value="office">Commercial Office</option>
+                                <option value="hotel">Hotel</option>
+                                <option value="hospital">Hospital</option>
+                                <option value="retail">Retail/Mall</option>
+                                <option value="manufacturing">Manufacturing</option>
+                                <option value="warehouse">Warehouse</option>
+                                <option value="school">Educational</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Project Investment (Million ฿)
+                                <span class="tooltip" data-tooltip="Total CAPEX required">ⓘ</span>
+                            </label>
+                            <input type="number" id="investment" value="5.0" step="0.1" min="0">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Energy Intensity (kWh/m²/year)
+                                <span class="tooltip" data-tooltip="Current annual energy use per square meter">ⓘ</span>
+                            </label>
+                            <input type="number" id="energyIntensity" value="250" step="10" min="0">
+                        </div>
+
+                        <h3 style="margin-top: 2rem;">Technical Factors</h3>
+
+                        <div class="form-group">
+                            <label>Technology Maturity
+                                <span class="tooltip" data-tooltip="How proven is the technology">ⓘ</span>
+                            </label>
+                            <select id="techMaturity">
+                                <option value="proven">Proven/Standard</option>
+                                <option value="established">Established</option>
+                                <option value="emerging">Emerging</option>
+                                <option value="novel">Novel/Experimental</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Baseline Data Quality
+                                <span class="tooltip" data-tooltip="Quality of pre-retrofit measurements">ⓘ</span>
+                            </label>
+                            <select id="baselineQuality">
+                                <option value="excellent">Excellent (12+ months, metered)</option>
+                                <option value="good">Good (6-12 months)</option>
+                                <option value="fair">Fair (3-6 months)</option>
+                                <option value="poor">Poor (&lt;3 months or estimated)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Implementation Complexity (1-10)
+                                <span class="range-value" id="complexityValue">5</span>
+                            </label>
+                            <input type="range" id="complexity" class="range-input" min="1" max="10" value="5">
+                        </div>
+
+                        <h3 style="margin-top: 2rem;">Financial Factors</h3>
+
+                        <div class="form-group">
+                            <label>Payback Period (years)</label>
+                            <input type="number" id="payback" value="4.5" step="0.1" min="0">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Expected Savings (%)</label>
+                            <input type="number" id="savings" value="30" step="1" min="0" max="100">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Energy Price Volatility
+                                <span class="tooltip" data-tooltip="Historical price variation">ⓘ</span>
+                            </label>
+                            <select id="priceVolatility">
+                                <option value="low">Low (regulated/stable)</option>
+                                <option value="medium">Medium</option>
+                                <option value="high">High (market-based)</option>
+                            </select>
+                        </div>
+
+                        <h3 style="margin-top: 2rem;">Organizational Factors</h3>
+
+                        <div class="form-group">
+                            <label>ESCO/Contractor Track Record</label>
+                            <select id="contractorRecord">
+                                <option value="excellent">Excellent (10+ projects, 95%+ success)</option>
+                                <option value="good">Good (5-10 projects)</option>
+                                <option value="fair">Fair (2-5 projects)</option>
+                                <option value="poor">Poor (&lt;2 projects or new)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Client Engagement Level</label>
+                            <select id="clientEngagement">
+                                <option value="high">High (dedicated energy manager)</option>
+                                <option value="medium">Medium</option>
+                                <option value="low">Low (minimal resources)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Number of External Parties
+                                <span class="tooltip"
+                                    data-tooltip="ESCOs, financiers, contractors, consultants">ⓘ</span>
+                            </label>
+                            <input type="number" id="externalParties" value="3" min="1" max="10">
+                        </div>
+
+                        <h3 style="margin-top: 2rem;">Performance Factors</h3>
+
+                        <div class="form-group">
+                            <label>M&amp;V Plan Quality</label>
+                            <select id="mvPlan">
+                                <option value="comprehensive">Comprehensive (IPMVP Option B/C)</option>
+                                <option value="standard">Standard (IPMVP Option A)</option>
+                                <option value="basic">Basic</option>
+                                <option value="minimal">Minimal</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Operations Impact
+                                <span class="tooltip" data-tooltip="Disruption during implementation">ⓘ</span>
+                            </label>
+                            <select id="opsImpact">
+                                <option value="minimal">Minimal (after hours)</option>
+                                <option value="moderate">Moderate (some downtime)</option>
+                                <option value="significant">Significant (major disruption)</option>
+                            </select>
+                        </div>
+
+                        <button class="btn btn-primary" onclick="calculateRisk()"
+                            style="width: 100%; margin-top: 1.5rem;">
+                            Calculate Risk Score
+                        </button>
+                    </div>
+
+                    <div>
+                        <div id="riskResults" style="display: none;">
+                            <div class="risk-meter">
+                                <div class="risk-score-display">
+                                    <h3>Overall Risk Score</h3>
+                                    <div class="risk-score-number" id="overallScore">--</div>
+                                    <div id="riskCategory" style="font-size: 1.25rem; font-weight: 600;"></div>
+                                    <div style="color: var(--color-text-muted); margin-top: 0.5rem;">
+                                        Risk Level: <span id="riskLevel">--</span>
+                                    </div>
+                                </div>
+
+                                <div class="risk-bar">
+                                    <div class="risk-indicator" id="riskIndicator"></div>
+                                </div>
+
+                                <div
+                                    style="display: flex; justify-content: space-between; font-size: 0.875rem; color: var(--color-text-muted); margin-top: 0.5rem;">
+                                    <span>Low Risk (0-30)</span>
+                                    <span>Medium Risk (31-60)</span>
+                                    <span>High Risk (61-100)</span>
+                                </div>
+                            </div>
+
+                            <div class="risk-categories">
+                                <div class="risk-category-card">
+                                    <div class="risk-category-header">
+                                        <span>Technical Risk</span>
+                                        <span class="risk-category-score" id="technicalRisk">--</span>
+                                    </div>
+                                    <small style="color: var(--color-text-muted);">Technology, complexity,
+                                        baseline</small>
+                                </div>
+
+                                <div class="risk-category-card">
+                                    <div class="risk-category-header">
+                                        <span>Financial Risk</span>
+                                        <span class="risk-category-score" id="financialRisk">--</span>
+                                    </div>
+                                    <small style="color: var(--color-text-muted);">Payback, savings, price
+                                        volatility</small>
+                                </div>
+
+                                <div class="risk-category-card">
+                                    <div class="risk-category-header">
+                                        <span>Organizational Risk</span>
+                                        <span class="risk-category-score" id="organizationalRisk">--</span>
+                                    </div>
+                                    <small style="color: var(--color-text-muted);">Contractor, client,
+                                        complexity</small>
+                                </div>
+
+                                <div class="risk-category-card">
+                                    <div class="risk-category-header">
+                                        <span>Performance Risk</span>
+                                        <span class="risk-category-score" id="performanceRisk">--</span>
+                                    </div>
+                                    <small style="color: var(--color-text-muted);">M&amp;V, operations,
+                                        maintenance</small>
+                                </div>
+                            </div>
+
+                            <div class="risk-details">
+                                <h3>Risk Assessment Details</h3>
+                                <div id="riskDetailsList"></div>
+                            </div>
+
+                            <div style="margin-top: 2rem; padding: 1.5rem; background: #f8fafc; border-radius: 8px;">
+                                <h3>Investment Recommendation</h3>
+                                <p id="recommendation" style="margin-top: 0.5rem; line-height: 1.6;"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Funding Finder Page -->
+        <div id="funding" class="page">
+            <div class="main-content">
+                <h1>Funding Source Finder</h1>
+
+                <div class="placeholder-card">
+                    <h3>💰 Smart Funding Matchmaking</h3>
+                    <p>Intelligent search engine connecting projects with grants, concessional loans, tax incentives,
+                        and private capital sources</p>
+                </div>
+
+                <div class="grid grid-3">
+                    <div class="card">
+                        <h3>Government Grants</h3>
+                        <p>Direct subsidies and incentive programs from DEDE and other agencies</p>
+                    </div>
+                    <div class="card">
+                        <h3>ESCO Financing</h3>
+                        <p>Performance-based contracts with guaranteed savings</p>
+                    </div>
+                    <div class="card">
+                        <h3>Bank Credit Lines</h3>
+                        <p>Specialized EE loan products from financial institutions</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analytics Page -->
+        <div id="analytics" class="page">
+            <div class="main-content">
+                <h1>Business Intelligence & Analytics</h1>
+
+                <div class="placeholder-card">
+                    <h3>📈 Advanced Analytics Dashboard</h3>
+                    <p>BI-powered insights, portfolio analysis, trend forecasting, and benchmark comparisons across
+                        sectors</p>
+                </div>
+
+                <div class="alert alert-info">
+                    Executive dashboards provide real-time KPIs for facility managers and aggregate views for DEDE
+                    policymakers
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Log In</h2>
+                <button class="modal-close" onclick="closeModal('loginModal')">&times;</button>
+            </div>
+
+            <div class="tabs">
+                <button class="tab-btn active" onclick="switchTab('project-owner')">Project Owner</button>
+                <button class="tab-btn" onclick="switchTab('investor')">Investor/Financier</button>
+                <button class="tab-btn" onclick="switchTab('esco')">ESCO/Service Provider</button>
+            </div>
+
+            <div id="project-owner" class="tab-content active">
+                <div class="form-group">
+                    <label>Email or Organization ID</label>
+                    <input type="text" placeholder="Enter your email or ID">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" placeholder="Enter password">
+                </div>
+                <button class="btn btn-primary" style="width: 100%;">Log In as Project Owner</button>
+                <p style="text-align: center; margin-top: 1rem; color: var(--color-text-muted); font-size: 0.875rem;">
+                    Don't have an account? <a href="#" style="color: var(--color-primary);">Register here</a>
+                </p>
+            </div>
+
+            <div id="investor" class="tab-content">
+                <div class="form-group">
+                    <label>Institution Name</label>
+                    <input type="text" placeholder="Bank or fund name">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" placeholder="institutional.email@example.com">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" placeholder="Enter password">
+                </div>
+                <button class="btn btn-primary" style="width: 100%;">Log In as Investor</button>
+                <p style="text-align: center; margin-top: 1rem; color: var(--color-text-muted); font-size: 0.875rem;">
+                    Need access? <a href="#" style="color: var(--color-primary);">Request institutional account</a>
+                </p>
+            </div>
+
+            <div id="esco" class="tab-content">
+                <div class="form-group">
+                    <label>Company Name</label>
+                    <input type="text" placeholder="ESCO company name">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" placeholder="company@example.com">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" placeholder="Enter password">
+                </div>
+                <button class="btn btn-primary" style="width: 100%;">Log In as ESCO</button>
+                <p style="text-align: center; margin-top: 1rem; color: var(--color-text-muted); font-size: 0.875rem;">
+                    New provider? <a href="#" style="color: var(--color-primary);">Register your company</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Account Management Modal -->
+    <div id="accountModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Account Management</h2>
+                <button class="modal-close" onclick="closeModal('accountModal')">&times;</button>
+            </div>
+
+            <div class="tabs">
+                <button class="tab-btn active" onclick="switchAccountTab('profile')">Profile</button>
+                <button class="tab-btn" onclick="switchAccountTab('settings')">Settings</button>
+                <button class="tab-btn" onclick="switchAccountTab('notifications')">Notifications</button>
+            </div>
+
+            <div id="profile" class="tab-content active">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" value="Demo User" placeholder="Your name">
+                </div>
+                <div class="form-group">
+                    <label>Organization</label>
+                    <input type="text" value="Sample Corporation" placeholder="Organization name">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" value="demo@example.com" placeholder="Email address">
+                </div>
+                <div class="form-group">
+                    <label>Phone</label>
+                    <input type="tel" value="+66 2-123-4567" placeholder="Phone number">
+                </div>
+                <div class="form-group">
+                    <label>Account Type</label>
+                    <input type="text" value="Project Owner" disabled style="background: var(--color-bg);">
+                </div>
+                <button class="btn btn-primary">Update Profile</button>
+            </div>
+
+            <div id="settings" class="tab-content">
+                <h3 style="margin-bottom: 1rem;">Security Settings</h3>
+                <div class="form-group">
+                    <label>Current Password</label>
+                    <input type="password" placeholder="Enter current password">
+                </div>
+                <div class="form-group">
+                    <label>New Password</label>
+                    <input type="password" placeholder="Enter new password">
+                </div>
+                <div class="form-group">
+                    <label>Confirm New Password</label>
+                    <input type="password" placeholder="Confirm new password">
+                </div>
+                <button class="btn btn-primary">Change Password</button>
+
+                <h3 style="margin-top: 2rem; margin-bottom: 1rem;">Data Integration</h3>
+                <div class="form-group">
+                    <label>e-Service Integration Status</label>
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <span class="badge badge-success">Connected</span>
+                        <button class="btn btn-secondary" style="padding: 0.5rem 1rem;">Manage Connection</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>API Access</label>
+                    <button class="btn btn-secondary">Generate API Key</button>
+                </div>
+            </div>
+
+            <div id="notifications" class="tab-content">
+                <h3 style="margin-bottom: 1rem;">Notification Preferences</h3>
+
+                <div class="form-group">
+                    <label style="display: flex; align-items: center; gap: 0.5rem;">
+                        <input type="checkbox" checked>
+                        Email notifications for funding opportunities
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label style="display: flex; align-items: center; gap: 0.5rem;">
+                        <input type="checkbox" checked>
+                        Energy consumption alerts
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label style="display: flex; align-items: center; gap: 0.5rem;">
+                        <input type="checkbox">
+                        Weekly performance reports
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label style="display: flex; align-items: center; gap: 0.5rem;">
+                        <input type="checkbox" checked>
+                        Project status updates
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label style="display: flex; align-items: center; gap: 0.5rem;">
+                        <input type="checkbox">
+                        Mobile push notifications
+                    </label>
+                </div>
+
+                <button class="btn btn-primary">Save Preferences</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Navigation
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const page = btn.dataset.page;
+
+                // Update active nav button
+                document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                // Show selected page
+                document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+                document.getElementById(page).classList.add('active');
+            });
+        });
+
+        // Range input display
+        document.getElementById('complexity').addEventListener('input', (e) => {
+            document.getElementById('complexityValue').textContent = e.target.value;
+        });
+
+        // Risk Calculation System
+        function calculateRisk() {
+            // Get all input values
+            const inputs = {
+                projectType: document.getElementById('projectType').value,
+                facilityType: document.getElementById('facilityType').value,
+                investment: parseFloat(document.getElementById('investment').value),
+                energyIntensity: parseFloat(document.getElementById('energyIntensity').value),
+                techMaturity: document.getElementById('techMaturity').value,
+                baselineQuality: document.getElementById('baselineQuality').value,
+                complexity: parseInt(document.getElementById('complexity').value),
+                payback: parseFloat(document.getElementById('payback').value),
+                savings: parseFloat(document.getElementById('savings').value),
+                priceVolatility: document.getElementById('priceVolatility').value,
+                contractorRecord: document.getElementById('contractorRecord').value,
+                clientEngagement: document.getElementById('clientEngagement').value,
+                externalParties: parseInt(document.getElementById('externalParties').value),
+                mvPlan: document.getElementById('mvPlan').value,
+                opsImpact: document.getElementById('opsImpact').value
+            };
+
+            // Calculate Technical Risk (0-25)
+            let technicalRisk = 0;
+
+            // Technology maturity scoring
+            const techMaturityScores = {
+                'proven': 2,
+                'established': 5,
+                'emerging': 8,
+                'novel': 12
+            };
+            technicalRisk += techMaturityScores[inputs.techMaturity];
+
+            // Baseline quality scoring
+            const baselineScores = {
+                'excellent': 1,
+                'good': 3,
+                'fair': 6,
+                'poor': 10
+            };
+            technicalRisk += baselineScores[inputs.baselineQuality];
+
+            // Complexity scoring (1-10 scale contributes 0-8 points)
+            technicalRisk += Math.round(inputs.complexity * 0.8);
+
+            // Project type complexity modifier
+            const projectComplexity = {
+                'lighting': 0.8,
+                'motors': 0.9,
+                'hvac': 1.1,
+                'controls': 1.2,
+                'building': 1.3,
+                'chiller': 1.1,
+                'solar': 1.0,
+                'comprehensive': 1.4
+            };
+            technicalRisk = Math.round(technicalRisk * projectComplexity[inputs.projectType]);
+            technicalRisk = Math.min(25, technicalRisk);
+
+            // Calculate Financial Risk (0-30)
+            let financialRisk = 0;
+
+            // Payback period scoring (longer = higher risk)
+            if (inputs.payback <= 3) financialRisk += 3;
+            else if (inputs.payback <= 5) financialRisk += 6;
+            else if (inputs.payback <= 7) financialRisk += 10;
+            else if (inputs.payback <= 10) financialRisk += 14;
+            else financialRisk += 18;
+
+            // Expected savings (lower = higher risk)
+            if (inputs.savings >= 40) financialRisk += 2;
+            else if (inputs.savings >= 30) financialRisk += 4;
+            else if (inputs.savings >= 20) financialRisk += 7;
+            else if (inputs.savings >= 10) financialRisk += 10;
+            else financialRisk += 15;
+
+            // Price volatility
+            const volatilityScores = {
+                'low': 2,
+                'medium': 5,
+                'high': 9
+            };
+            financialRisk += volatilityScores[inputs.priceVolatility];
+
+            // Investment size risk (larger = slightly higher risk)
+            if (inputs.investment > 20) financialRisk += 3;
+            else if (inputs.investment > 10) financialRisk += 2;
+            else if (inputs.investment > 5) financialRisk += 1;
+
+            financialRisk = Math.min(30, financialRisk);
+
+            // Calculate Organizational Risk (0-25)
+            let organizationalRisk = 0;
+
+            // Contractor track record
+            const contractorScores = {
+                'excellent': 2,
+                'good': 5,
+                'fair': 9,
+                'poor': 14
+            };
+            organizationalRisk += contractorScores[inputs.contractorRecord];
+
+            // Client engagement
+            const engagementScores = {
+                'high': 2,
+                'medium': 5,
+                'low': 9
+            };
+            organizationalRisk += engagementScores[inputs.clientEngagement];
+
+            // External parties complexity
+            organizationalRisk += Math.min(8, inputs.externalParties);
+
+            organizationalRisk = Math.min(25, organizationalRisk);
+
+            // Calculate Performance Risk (0-20)
+            let performanceRisk = 0;
+
+            // M&V plan quality
+            const mvScores = {
+                'comprehensive': 2,
+                'standard': 5,
+                'basic': 8,
+                'minimal': 12
+            };
+            performanceRisk += mvScores[inputs.mvPlan];
+
+            // Operations impact
+            const opsScores = {
+                'minimal': 2,
+                'moderate': 5,
+                'significant': 10
+            };
+            performanceRisk += opsScores[inputs.opsImpact];
+
+            // Energy intensity factor (lower intensity = harder to verify savings)
+            if (inputs.energyIntensity < 100) performanceRisk += 4;
+            else if (inputs.energyIntensity < 200) performanceRisk += 2;
+
+            performanceRisk = Math.min(20, performanceRisk);
+
+            // Calculate Overall Risk (0-100)
+            const overallRisk = technicalRisk + financialRisk + organizationalRisk + performanceRisk;
+
+            // Determine risk category and level
+            let riskCategory, riskLevel, riskClass;
+            if (overallRisk <= 30) {
+                riskCategory = 'Low Risk';
+                riskLevel = 'Suitable for standard financing';
+                riskClass = 'low';
+            } else if (overallRisk <= 60) {
+                riskCategory = 'Medium Risk';
+                riskLevel = 'May require enhanced due diligence';
+                riskClass = 'medium';
+            } else {
+                riskCategory = 'High Risk';
+                riskLevel = 'Requires risk mitigation measures';
+                riskClass = 'high';
+            }
+
+            // Display results
+            document.getElementById('riskResults').style.display = 'block';
+            document.getElementById('overallScore').textContent = overallRisk;
+            document.getElementById('overallScore').className = 'risk-score-number ' + riskClass;
+            document.getElementById('riskCategory').textContent = riskCategory;
+            document.getElementById('riskLevel').textContent = riskLevel;
+
+            document.getElementById('technicalRisk').textContent = technicalRisk + '/25';
+            document.getElementById('financialRisk').textContent = financialRisk + '/30';
+            document.getElementById('organizationalRisk').textContent = organizationalRisk + '/25';
+            document.getElementById('performanceRisk').textContent = performanceRisk + '/20';
+
+            // Update risk indicator position
+            const indicator = document.getElementById('riskIndicator');
+            indicator.style.left = overallRisk + '%';
+
+            // Generate detailed risk breakdown
+            const details = [];
+
+            details.push({
+                label: 'Technology Maturity',
+                value: inputs.techMaturity.charAt(0).toUpperCase() + inputs.techMaturity.slice(1),
+                impact: techMaturityScores[inputs.techMaturity] > 7 ? 'high' : techMaturityScores[inputs.techMaturity] > 4 ? 'medium' : 'low'
+            });
+
+            details.push({
+                label: 'Baseline Data Quality',
+                value: inputs.baselineQuality.charAt(0).toUpperCase() + inputs.baselineQuality.slice(1),
+                impact: baselineScores[inputs.baselineQuality] > 5 ? 'high' : baselineScores[inputs.baselineQuality] > 2 ? 'medium' : 'low'
+            });
+
+            details.push({
+                label: 'Payback Period',
+                value: inputs.payback.toFixed(1) + ' years',
+                impact: inputs.payback > 7 ? 'high' : inputs.payback > 5 ? 'medium' : 'low'
+            });
+
+            details.push({
+                label: 'Expected Savings',
+                value: inputs.savings + '%',
+                impact: inputs.savings < 20 ? 'high' : inputs.savings < 30 ? 'medium' : 'low'
+            });
+
+            details.push({
+                label: 'Contractor Track Record',
+                value: inputs.contractorRecord.charAt(0).toUpperCase() + inputs.contractorRecord.slice(1),
+                impact: contractorScores[inputs.contractorRecord] > 8 ? 'high' : contractorScores[inputs.contractorRecord] > 4 ? 'medium' : 'low'
+            });
+
+            details.push({
+                label: 'M&V Plan',
+                value: inputs.mvPlan.charAt(0).toUpperCase() + inputs.mvPlan.slice(1),
+                impact: mvScores[inputs.mvPlan] > 7 ? 'high' : mvScores[inputs.mvPlan] > 4 ? 'medium' : 'low'
+            });
+
+            let detailsHTML = '';
+            details.forEach(detail => {
+                let badgeClass = detail.impact === 'low' ? 'badge-success' : detail.impact === 'medium' ? 'badge-warning' : 'badge-danger';
+                detailsHTML += `
+                    <div class="risk-detail-item">
+                        <div>
+                            <strong>${detail.label}</strong><br>
+                            <span style="color: var(--color-text-muted); font-size: 0.875rem;">${detail.value}</span>
+                        </div>
+                        <span class="badge ${badgeClass}">${detail.impact.charAt(0).toUpperCase() + detail.impact.slice(1)}</span>
+                    </div>
+                `;
+            });
+            document.getElementById('riskDetailsList').innerHTML = detailsHTML;
+
+            // Generate recommendation
+            let recommendation = '';
+            if (overallRisk <= 30) {
+                recommendation = `<strong>✓ Project shows low risk profile.</strong> This project type (${inputs.projectType}) with ${inputs.payback.toFixed(1)}-year payback is suitable for standard commercial financing. Strong baseline data and ${inputs.contractorRecord} contractor record support bankability. Consider promoting to institutional investors and commercial banks.`;
+            } else if (overallRisk <= 60) {
+                recommendation = `<strong>⚠ Project has moderate risk factors.</strong> Additional due diligence recommended on ${inputs.baselineQuality === 'poor' || inputs.baselineQuality === 'fair' ? 'baseline measurement,' : ''} ${inputs.mvPlan === 'basic' || inputs.mvPlan === 'minimal' ? 'M&V plan,' : ''} and ${inputs.contractorRecord === 'fair' || inputs.contractorRecord === 'poor' ? 'contractor qualifications' : 'contract terms'}. May benefit from partial guarantee schemes or ESCO performance contracts. Suitable for specialized EE funds with technical expertise.`;
+            } else {
+                recommendation = `<strong>⚠ High-risk project requiring mitigation.</strong> Key concerns: ${inputs.payback > 7 ? 'long payback period, ' : ''}${inputs.savings < 20 ? 'low expected savings, ' : ''}${inputs.techMaturity === 'emerging' || inputs.techMaturity === 'novel' ? 'unproven technology, ' : ''}${inputs.contractorRecord === 'poor' ? 'limited contractor experience. ' : ''}Recommend: enhanced M&V protocol, energy savings insurance, third-party technical oversight, or grant/concessional loan blending to improve viability. Consider pilot/demonstration program support.`;
+            }
+            document.getElementById('recommendation').innerHTML = recommendation;
+
+            // Scroll to results
+            document.getElementById('riskResults').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        // Modal functions
+        function showLogin() {
+            document.getElementById('loginModal').classList.add('active');
+        }
+
+        function showAccount() {
+            document.getElementById('accountModal').classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        // Close modal when clicking outside
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal(modal.id);
+                }
+            });
+        });
+
+        // Login tab switching
+        function switchTab(tabName) {
+            document.querySelectorAll('#loginModal .tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('#loginModal .tab-content').forEach(content => content.classList.remove('active'));
+
+            event.target.classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+        }
+
+        // Account tab switching
+        function switchAccountTab(tabName) {
+            document.querySelectorAll('#accountModal .tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('#accountModal .tab-content').forEach(content => content.classList.remove('active'));
+
+            event.target.classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+        }
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal').forEach(modal => {
+                    modal.classList.remove('active');
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>
