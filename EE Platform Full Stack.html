@@ -1,0 +1,1534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EE Platform - Full Stack System</title>
+    <style>
+        :root {
+            --color-primary: #2563eb;
+            --color-primary-hover: #1d4ed8;
+            --color-success: #10b981;
+            --color-warning: #f59e0b;
+            --color-danger: #ef4444;
+            --color-bg: #f8fafc;
+            --color-surface: #ffffff;
+            --color-border: #e2e8f0;
+            --color-text: #1e293b;
+            --color-text-muted: #64748b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: var(--color-surface);
+            border-bottom: 1px solid var(--color-border);
+            padding: 1.5rem 0;
+            margin-bottom: 2rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-primary);
+        }
+
+        .logo img {
+            height: 48px;
+            width: auto;
+        }
+
+        nav {
+            display: flex;
+            gap: 1rem;
+        }
+
+        nav button {
+            background: none;
+            border: none;
+            color: var(--color-text-muted);
+            font-size: 0.95rem;
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        nav button:hover, nav button.active {
+            background: var(--color-primary);
+            color: white;
+        }
+
+        .main-content {
+            background: var(--color-surface);
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--color-text);
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--color-text);
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+            color: var(--color-text);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--color-text);
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--color-border);
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+            font-family: inherit;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+
+        .btn-primary {
+            background: var(--color-primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--color-primary-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-success {
+            background: var(--color-success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #059669;
+        }
+
+        .btn-secondary {
+            background: var(--color-border);
+            color: var(--color-text);
+        }
+
+        .btn-secondary:hover {
+            background: #cbd5e1;
+        }
+
+        .grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .grid-2 {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .grid-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .grid-4 {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        @media (max-width: 768px) {
+            .grid-2, .grid-3, .grid-4 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: all 0.2s;
+        }
+
+        .card:hover {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-card {
+            background: white;
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--color-primary);
+            margin: 0.5rem 0;
+        }
+
+        .stat-label {
+            color: var(--color-text-muted);
+            font-size: 0.875rem;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .badge-success {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .badge-warning {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .badge-danger {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .badge-info {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+        }
+
+        .alert-success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #10b981;
+        }
+
+        .alert-info {
+            background: #dbeafe;
+            color: #1e40af;
+            border: 1px solid #93c5fd;
+        }
+
+        .alert-warning {
+            background: #fef3c7;
+            color: #92400e;
+            border: 1px solid #f59e0b;
+        }
+
+        .project-item {
+            background: white;
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .project-item:hover {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-color: var(--color-primary);
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .project-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .project-meta {
+            display: flex;
+            gap: 2rem;
+            color: var(--color-text-muted);
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+
+        .code-block {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            margin: 1rem 0;
+        }
+
+        .file-upload {
+            border: 2px dashed var(--color-border);
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .file-upload:hover {
+            border-color: var(--color-primary);
+            background: #f8fafc;
+        }
+
+        .file-upload input[type="file"] {
+            display: none;
+        }
+
+        .chart-container {
+            background: white;
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: #e2e8f0;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--color-primary), var(--color-success));
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        th {
+            background: #f8fafc;
+            font-weight: 600;
+            color: var(--color-text);
+        }
+
+        tr:hover {
+            background: #f8fafc;
+        }
+
+        .tab-container {
+            margin-bottom: 2rem;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            border-bottom: 2px solid var(--color-border);
+            margin-bottom: 1.5rem;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            color: var(--color-text-muted);
+            font-weight: 500;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -2px;
+            transition: all 0.2s;
+        }
+
+        .tab-btn:hover {
+            color: var(--color-text);
+        }
+
+        .tab-btn.active {
+            color: var(--color-primary);
+            border-bottom-color: var(--color-primary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .metric-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .metric-box h3 {
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-box .value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 0.5rem 0;
+        }
+
+        .efficiency-gauge {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 2rem auto;
+        }
+
+        .gauge-circle {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: conic-gradient(
+                var(--color-success) 0% var(--gauge-percent, 0%),
+                var(--color-border) var(--gauge-percent, 0%) 100%
+            );
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gauge-inner {
+            width: 80%;
+            height: 80%;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gauge-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--color-text);
+        }
+
+        .gauge-label {
+            font-size: 0.875rem;
+            color: var(--color-text-muted);
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .success-message {
+            background: var(--color-success);
+            color: white;
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+            display: none;
+        }
+
+        .error-message {
+            background: var(--color-danger);
+            color: white;
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/ff933404-2be6-4607-8306-44490396778c" alt="EE Platform">
+                <span>EE Platform</span>
+            </div>
+            <nav>
+                <button class="nav-btn active" data-page="dashboard">Dashboard</button>
+                <button class="nav-btn" data-page="submit-project">Submit Project</button>
+                <button class="nav-btn" data-page="investor-portal">Investor Portal</button>
+                <button class="nav-btn" data-page="data-integration">Data Integration</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Dashboard Page -->
+        <div id="dashboard" class="page active">
+            <div class="main-content">
+                <h1>Analytics Dashboard</h1>
+                
+                <div class="grid grid-4">
+                    <div class="stat-card">
+                        <div class="stat-label">Total Projects</div>
+                        <div class="stat-value" id="totalProjects">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Active Monitoring</div>
+                        <div class="stat-value" id="activeMonitoring">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Avg Efficiency (kW/TR)</div>
+                        <div class="stat-value" id="avgEfficiency">--</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Data Points Today</div>
+                        <div class="stat-value" id="dataPoints">0</div>
+                    </div>
+                </div>
+
+                <div class="grid grid-2" style="margin-top: 2rem;">
+                    <div class="card">
+                        <h3>Recent Projects</h3>
+                        <div id="recentProjectsList">
+                            <p style="color: var(--color-text-muted); text-align: center; padding: 2rem;">
+                                No projects yet. Submit your first project to get started.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>System Performance</h3>
+                        <div class="efficiency-gauge">
+                            <div class="gauge-circle" id="efficiencyGauge">
+                                <div class="gauge-inner">
+                                    <div class="gauge-value" id="gaugeValue">--</div>
+                                    <div class="gauge-label">kW/TR</div>
+                                </div>
+                            </div>
+                        </div>
+                        <p style="text-align: center; color: var(--color-text-muted);">
+                            Overall System Efficiency
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top: 2rem;">
+                    <h3>Latest Sensor Readings</h3>
+                    <div id="latestReadingsTable">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Project ID</th>
+                                    <th>Timestamp</th>
+                                    <th>Flow In (m³/h)</th>
+                                    <th>Temp In (°C)</th>
+                                    <th>Temp Out (°C)</th>
+                                    <th>Power (kW)</th>
+                                    <th>Efficiency (kW/TR)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="readingsTableBody">
+                                <tr>
+                                    <td colspan="7" style="text-align: center; color: var(--color-text-muted);">
+                                        No data available
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Submit Project Page -->
+        <div id="submit-project" class="page">
+            <div class="main-content">
+                <h1>Submit Energy Efficiency Project Proposal</h1>
+                
+                <div class="alert alert-info">
+                    Complete the form below to submit your project for risk assessment and potential funding.
+                </div>
+
+                <div id="submitSuccessMessage" class="success-message">
+                    ✓ Project submitted successfully! Your project ID: <span id="newProjectId"></span>
+                </div>
+
+                <form id="projectSubmitForm">
+                    <h2>Project Information</h2>
+                    
+                    <div class="grid grid-2">
+                        <div class="form-group">
+                            <label>Project Name *</label>
+                            <input type="text" id="projectName" required placeholder="e.g., Central Mall HVAC Upgrade">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Project Type *</label>
+                            <select id="projectType" required>
+                                <option value="">Select type...</option>
+                                <option value="lighting">Lighting Retrofit</option>
+                                <option value="hvac">HVAC Optimization</option>
+                                <option value="motors">Motor & VFD Upgrade</option>
+                                <option value="building">Building Envelope</option>
+                                <option value="controls">Energy Management System</option>
+                                <option value="chiller">Chiller Replacement</option>
+                                <option value="solar">Solar PV Integration</option>
+                                <option value="comprehensive">Comprehensive Retrofit</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Facility Type *</label>
+                            <select id="facilityType" required>
+                                <option value="">Select type...</option>
+                                <option value="office">Commercial Office</option>
+                                <option value="hotel">Hotel</option>
+                                <option value="hospital">Hospital</option>
+                                <option value="retail">Retail/Mall</option>
+                                <option value="manufacturing">Manufacturing</option>
+                                <option value="warehouse">Warehouse</option>
+                                <option value="school">Educational</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Facility Size (m²) *</label>
+                            <input type="number" id="facilitySize" required placeholder="e.g., 5000">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Project Investment (Million ฿) *</label>
+                            <input type="number" id="investment" step="0.1" required placeholder="e.g., 5.0">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Expected Energy Savings (%) *</label>
+                            <input type="number" id="savings" required placeholder="e.g., 30">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Payback Period (years) *</label>
+                            <input type="number" id="payback" step="0.1" required placeholder="e.g., 4.5">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Current Energy Intensity (kWh/m²/year) *</label>
+                            <input type="number" id="energyIntensity" required placeholder="e.g., 250">
+                        </div>
+                    </div>
+
+                    <h2 style="margin-top: 2rem;">Technical Details</h2>
+
+                    <div class="grid grid-2">
+                        <div class="form-group">
+                            <label>Technology Maturity *</label>
+                            <select id="techMaturity" required>
+                                <option value="">Select...</option>
+                                <option value="proven">Proven/Standard</option>
+                                <option value="established">Established</option>
+                                <option value="emerging">Emerging</option>
+                                <option value="novel">Novel/Experimental</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Baseline Data Quality *</label>
+                            <select id="baselineQuality" required>
+                                <option value="">Select...</option>
+                                <option value="excellent">Excellent (12+ months, metered)</option>
+                                <option value="good">Good (6-12 months)</option>
+                                <option value="fair">Fair (3-6 months)</option>
+                                <option value="poor">Poor (&lt;3 months or estimated)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>ESCO/Contractor Track Record *</label>
+                            <select id="contractorRecord" required>
+                                <option value="">Select...</option>
+                                <option value="excellent">Excellent (10+ projects, 95%+ success)</option>
+                                <option value="good">Good (5-10 projects)</option>
+                                <option value="fair">Fair (2-5 projects)</option>
+                                <option value="poor">Poor (&lt;2 projects or new)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>M&V Plan Quality *</label>
+                            <select id="mvPlan" required>
+                                <option value="">Select...</option>
+                                <option value="comprehensive">Comprehensive (IPMVP Option B/C)</option>
+                                <option value="standard">Standard (IPMVP Option A)</option>
+                                <option value="basic">Basic</option>
+                                <option value="minimal">Minimal</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <h2 style="margin-top: 2rem;">Contact Information</h2>
+
+                    <div class="grid grid-2">
+                        <div class="form-group">
+                            <label>Organization Name *</label>
+                            <input type="text" id="orgName" required placeholder="Your company name">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Contact Person *</label>
+                            <input type="text" id="contactPerson" required placeholder="Full name">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Email *</label>
+                            <input type="email" id="email" required placeholder="email@example.com">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Phone *</label>
+                            <input type="tel" id="phone" required placeholder="+66 2-123-4567">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Project Description</label>
+                        <textarea id="projectDescription" placeholder="Provide details about your energy efficiency project..."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        Submit Project for Assessment
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Investor Portal Page -->
+        <div id="investor-portal" class="page">
+            <div class="main-content">
+                <h1>Investor Portal - Project Risk Assessment</h1>
+
+                <div class="alert alert-info">
+                    Review project proposals with standardized risk scores. Request contact information for projects of interest.
+                </div>
+
+                <div class="tab-container">
+                    <div class="tabs">
+                        <button class="tab-btn active" onclick="filterProjects('all')">All Projects</button>
+                        <button class="tab-btn" onclick="filterProjects('low')">Low Risk</button>
+                        <button class="tab-btn" onclick="filterProjects('medium')">Medium Risk</button>
+                        <button class="tab-btn" onclick="filterProjects('high')">High Risk</button>
+                    </div>
+                </div>
+
+                <div id="investorProjectsList">
+                    <p style="color: var(--color-text-muted); text-align: center; padding: 3rem;">
+                        No projects available. Check back later for new opportunities.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Integration Page -->
+        <div id="data-integration" class="page">
+            <div class="main-content">
+                <h1>Data Integration - Sensor Data Upload</h1>
+
+                <div class="alert alert-warning">
+                    <strong>Important:</strong> Ensure your data follows the specified format before uploading.
+                </div>
+
+                <div class="grid grid-2">
+                    <div class="card">
+                        <h2>Upload Sensor Data</h2>
+                        
+                        <div class="tabs" style="margin-bottom: 1.5rem;">
+                            <button class="tab-btn active" onclick="switchUploadTab('csv')">CSV Upload</button>
+                            <button class="tab-btn" onclick="switchUploadTab('api')">API Integration</button>
+                        </div>
+
+                        <div id="csv-upload" class="tab-content active">
+                            <div class="form-group">
+                                <label>Select Project *</label>
+                                <select id="uploadProjectId">
+                                    <option value="">Select project...</option>
+                                </select>
+                            </div>
+
+                            <div class="file-upload" onclick="document.getElementById('csvFile').click()">
+                                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin: 0 auto; color: var(--color-primary);">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="17 8 12 3 7 8"></polyline>
+                                    <line x1="12" y1="3" x2="12" y2="15"></line>
+                                </svg>
+                                <p style="margin-top: 1rem; color: var(--color-text-muted);">
+                                    Click to upload CSV file<br>
+                                    <small>or drag and drop</small>
+                                </p>
+                                <input type="file" id="csvFile" accept=".csv" onchange="handleCSVUpload(event)">
+                            </div>
+
+                            <div id="uploadSuccessMessage" class="success-message">
+                                ✓ Data uploaded successfully! Processing sensor readings...
+                            </div>
+
+                            <div id="uploadErrorMessage" class="error-message">
+                                ✗ Upload failed. Please check the file format and try again.
+                            </div>
+
+                            <button class="btn btn-secondary" onclick="downloadSampleCSV()" style="width: 100%; margin-top: 1rem;">
+                                Download Sample CSV Template
+                            </button>
+                        </div>
+
+                        <div id="api-upload" class="tab-content">
+                            <div class="form-group">
+                                <label>API Endpoint</label>
+                                <input type="text" value="/api/sensor-data" readonly style="background: var(--color-bg);">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Method</label>
+                                <input type="text" value="POST" readonly style="background: var(--color-bg);">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Content-Type</label>
+                                <input type="text" value="application/json" readonly style="background: var(--color-bg);">
+                            </div>
+
+                            <p style="margin: 1rem 0; color: var(--color-text-muted);">
+                                Send sensor data as JSON payload. See format specification below.
+                            </p>
+
+                            <button class="btn btn-primary" onclick="testAPIConnection()">
+                                Test API Connection
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h2>Data Format Specification</h2>
+
+                        <h3 style="margin-top: 1.5rem;">Required Fields</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Field</th>
+                                    <th>Unit</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>project_id</code></td>
+                                    <td>string</td>
+                                    <td>Unique project identifier</td>
+                                </tr>
+                                <tr>
+                                    <td><code>timestamp</code></td>
+                                    <td>ISO 8601</td>
+                                    <td>Reading time (YYYY-MM-DD HH:MM:SS)</td>
+                                </tr>
+                                <tr>
+                                    <td><code>flow_in</code></td>
+                                    <td>m³/h</td>
+                                    <td>Chilled water flow rate in</td>
+                                </tr>
+                                <tr>
+                                    <td><code>flow_out</code></td>
+                                    <td>m³/h</td>
+                                    <td>Chilled water flow rate out</td>
+                                </tr>
+                                <tr>
+                                    <td><code>temp_in</code></td>
+                                    <td>°C</td>
+                                    <td>Chilled water temperature in</td>
+                                </tr>
+                                <tr>
+                                    <td><code>temp_out</code></td>
+                                    <td>°C</td>
+                                    <td>Chilled water temperature out</td>
+                                </tr>
+                                <tr>
+                                    <td><code>power</code></td>
+                                    <td>kW</td>
+                                    <td>Chiller power consumption</td>
+                                </tr>
+                                <tr>
+                                    <td><code>ambient_temp</code></td>
+                                    <td>°C</td>
+                                    <td>Cooling tower ambient temperature</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <h3 style="margin-top: 1.5rem;">JSON Example</h3>
+                        <div class="code-block">
+{
+  "project_id": "PROJ-001",
+  "timestamp": "2026-03-12 13:45:00",
+  "flow_in": 150.5,
+  "flow_out": 150.2,
+  "temp_in": 12.5,
+  "temp_out": 7.0,
+  "power": 85.3,
+  "ambient_temp": 32.5
+}
+                        </div>
+
+                        <h3 style="margin-top: 1.5rem;">CSV Example</h3>
+                        <div class="code-block">
+project_id,timestamp,flow_in,flow_out,temp_in,temp_out,power,ambient_temp
+PROJ-001,2026-03-12 13:45:00,150.5,150.2,12.5,7.0,85.3,32.5
+PROJ-001,2026-03-12 14:00:00,152.0,151.8,12.3,7.2,86.1,32.8
+                        </div>
+
+                        <h3 style="margin-top: 1.5rem;">Efficiency Calculation</h3>
+                        <p style="color: var(--color-text-muted); line-height: 1.8;">
+                            The system automatically calculates cooling efficiency using:<br><br>
+                            <strong>Cooling Load (TR) = Flow × ΔT × 4.187 / 3.517</strong><br>
+                            Where: ΔT = temp_in - temp_out<br><br>
+                            <strong>Efficiency (kW/TR) = Power / Cooling Load</strong><br><br>
+                            Lower kW/TR values indicate better efficiency (typical range: 0.5-1.2 kW/TR)
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top: 2rem;">
+                    <h2>Recent Uploads</h2>
+                    <div id="recentUploads">
+                        <p style="color: var(--color-text-muted); text-align: center; padding: 2rem;">
+                            No data uploads yet
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // In-memory database simulation (replace with actual backend calls)
+        let projects = [];
+        let sensorData = [];
+        let currentFilter = 'all';
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            loadMockData();
+            updateDashboard();
+            updateInvestorPortal();
+            updateProjectSelectors();
+        });
+
+        // Navigation
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const page = btn.dataset.page;
+                
+                document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+                document.getElementById(page).classList.add('active');
+
+                if (page === 'dashboard') {
+                    updateDashboard();
+                } else if (page === 'investor-portal') {
+                    updateInvestorPortal();
+                }
+            });
+        });
+
+        // Project Submission
+        document.getElementById('projectSubmitForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const projectId = 'PROJ-' + String(projects.length + 1).padStart(3, '0');
+            
+            const formData = {
+                id: projectId,
+                name: document.getElementById('projectName').value,
+                type: document.getElementById('projectType').value,
+                facilityType: document.getElementById('facilityType').value,
+                facilitySize: parseFloat(document.getElementById('facilitySize').value),
+                investment: parseFloat(document.getElementById('investment').value),
+                savings: parseFloat(document.getElementById('savings').value),
+                payback: parseFloat(document.getElementById('payback').value),
+                energyIntensity: parseFloat(document.getElementById('energyIntensity').value),
+                techMaturity: document.getElementById('techMaturity').value,
+                baselineQuality: document.getElementById('baselineQuality').value,
+                contractorRecord: document.getElementById('contractorRecord').value,
+                mvPlan: document.getElementById('mvPlan').value,
+                organization: document.getElementById('orgName').value,
+                contactPerson: document.getElementById('contactPerson').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                description: document.getElementById('projectDescription').value,
+                submittedDate: new Date().toISOString(),
+                status: 'pending'
+            };
+
+            // Calculate risk score
+            const riskScore = calculateRiskScore(formData);
+            formData.riskScore = riskScore.overall;
+            formData.riskCategory = riskScore.category;
+            formData.riskLevel = riskScore.level;
+            formData.technicalRisk = riskScore.technical;
+            formData.financialRisk = riskScore.financial;
+            formData.organizationalRisk = riskScore.organizational;
+            formData.performanceRisk = riskScore.performance;
+
+            projects.push(formData);
+            
+            // Show success message
+            document.getElementById('newProjectId').textContent = projectId;
+            document.getElementById('submitSuccessMessage').style.display = 'block';
+            
+            // Reset form
+            document.getElementById('projectSubmitForm').reset();
+            
+            // Update dashboard and selectors
+            updateDashboard();
+            updateProjectSelectors();
+            
+            // Hide success message after 5 seconds
+            setTimeout(() => {
+                document.getElementById('submitSuccessMessage').style.display = 'none';
+            }, 5000);
+        });
+
+        // Risk Score Calculation
+        function calculateRiskScore(project) {
+            let technicalRisk = 0;
+            let financialRisk = 0;
+            let organizationalRisk = 0;
+            let performanceRisk = 0;
+
+            // Technical Risk (0-25)
+            const techMaturityScores = { 'proven': 2, 'established': 5, 'emerging': 8, 'novel': 12 };
+            technicalRisk += techMaturityScores[project.techMaturity];
+
+            const baselineScores = { 'excellent': 1, 'good': 3, 'fair': 6, 'poor': 10 };
+            technicalRisk += baselineScores[project.baselineQuality];
+
+            const projectComplexity = {
+                'lighting': 0.8, 'motors': 0.9, 'hvac': 1.1, 'controls': 1.2,
+                'building': 1.3, 'chiller': 1.1, 'solar': 1.0, 'comprehensive': 1.4
+            };
+            technicalRisk = Math.round(technicalRisk * projectComplexity[project.type]);
+            technicalRisk = Math.min(25, technicalRisk);
+
+            // Financial Risk (0-30)
+            if (project.payback <= 3) financialRisk += 3;
+            else if (project.payback <= 5) financialRisk += 6;
+            else if (project.payback <= 7) financialRisk += 10;
+            else if (project.payback <= 10) financialRisk += 14;
+            else financialRisk += 18;
+
+            if (project.savings >= 40) financialRisk += 2;
+            else if (project.savings >= 30) financialRisk += 4;
+            else if (project.savings >= 20) financialRisk += 7;
+            else if (project.savings >= 10) financialRisk += 10;
+            else financialRisk += 15;
+
+            if (project.investment > 20) financialRisk += 3;
+            else if (project.investment > 10) financialRisk += 2;
+            else if (project.investment > 5) financialRisk += 1;
+
+            financialRisk = Math.min(30, financialRisk);
+
+            // Organizational Risk (0-25)
+            const contractorScores = { 'excellent': 2, 'good': 5, 'fair': 9, 'poor': 14 };
+            organizationalRisk += contractorScores[project.contractorRecord];
+            organizationalRisk = Math.min(25, organizationalRisk + 5);
+
+            // Performance Risk (0-20)
+            const mvScores = { 'comprehensive': 2, 'standard': 5, 'basic': 8, 'minimal': 12 };
+            performanceRisk += mvScores[project.mvPlan];
+
+            if (project.energyIntensity < 100) performanceRisk += 4;
+            else if (project.energyIntensity < 200) performanceRisk += 2;
+
+            performanceRisk = Math.min(20, performanceRisk);
+
+            const overallRisk = technicalRisk + financialRisk + organizationalRisk + performanceRisk;
+
+            let category, level;
+            if (overallRisk <= 30) {
+                category = 'Low Risk';
+                level = 'Suitable for standard financing';
+            } else if (overallRisk <= 60) {
+                category = 'Medium Risk';
+                level = 'May require enhanced due diligence';
+            } else {
+                category = 'High Risk';
+                level = 'Requires risk mitigation measures';
+            }
+
+            return {
+                overall: overallRisk,
+                category: category,
+                level: level,
+                technical: technicalRisk,
+                financial: financialRisk,
+                organizational: organizationalRisk,
+                performance: performanceRisk
+            };
+        }
+
+        // Update Dashboard
+        function updateDashboard() {
+            document.getElementById('totalProjects').textContent = projects.length;
+            
+            const activeProjects = projects.filter(p => sensorData.some(s => s.project_id === p.id));
+            document.getElementById('activeMonitoring').textContent = activeProjects.length;
+
+            const todayData = sensorData.filter(d => {
+                const date = new Date(d.timestamp);
+                const today = new Date();
+                return date.toDateString() === today.toDateString();
+            });
+            document.getElementById('dataPoints').textContent = todayData.length;
+
+            // Calculate average efficiency
+            if (sensorData.length > 0) {
+                const avgEff = sensorData.reduce((sum, d) => sum + d.efficiency, 0) / sensorData.length;
+                document.getElementById('avgEfficiency').textContent = avgEff.toFixed(2);
+                document.getElementById('gaugeValue').textContent = avgEff.toFixed(2);
+                
+                // Update gauge
+                const gaugePercent = Math.min(100, (avgEff / 1.5) * 100);
+                document.getElementById('efficiencyGauge').style.setProperty('--gauge-percent', gaugePercent + '%');
+            }
+
+            // Update recent projects list
+            const recentList = document.getElementById('recentProjectsList');
+            if (projects.length > 0) {
+                const recentProjects = projects.slice(-5).reverse();
+                recentList.innerHTML = recentProjects.map(p => `
+                    <div class="project-item" style="margin-bottom: 1rem;">
+                        <div class="project-header">
+                            <div class="project-title">${p.name}</div>
+                            <span class="badge ${p.riskScore <= 30 ? 'badge-success' : p.riskScore <= 60 ? 'badge-warning' : 'badge-danger'}">
+                                ${p.riskCategory}
+                            </span>
+                        </div>
+                        <div class="project-meta">
+                            <span>ID: ${p.id}</span>
+                            <span>Investment: ฿${p.investment}M</span>
+                            <span>Risk Score: ${p.riskScore}/100</span>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            // Update readings table
+            updateReadingsTable();
+        }
+
+        // Update Readings Table
+        function updateReadingsTable() {
+            const tbody = document.getElementById('readingsTableBody');
+            if (sensorData.length > 0) {
+                const latestData = sensorData.slice(-10).reverse();
+                tbody.innerHTML = latestData.map(d => `
+                    <tr>
+                        <td>${d.project_id}</td>
+                        <td>${d.timestamp}</td>
+                        <td>${d.flow_in.toFixed(1)}</td>
+                        <td>${d.temp_in.toFixed(1)}</td>
+                        <td>${d.temp_out.toFixed(1)}</td>
+                        <td>${d.power.toFixed(1)}</td>
+                        <td style="color: ${d.efficiency < 0.8 ? 'var(--color-success)' : d.efficiency < 1.0 ? 'var(--color-warning)' : 'var(--color-danger)'}; font-weight: 600;">
+                            ${d.efficiency.toFixed(2)}
+                        </td>
+                    </tr>
+                `).join('');
+            }
+        }
+
+        // Update Investor Portal
+        function updateInvestorPortal() {
+            const container = document.getElementById('investorProjectsList');
+            
+            let filteredProjects = projects;
+            if (currentFilter !== 'all') {
+                filteredProjects = projects.filter(p => {
+                    if (currentFilter === 'low') return p.riskScore <= 30;
+                    if (currentFilter === 'medium') return p.riskScore > 30 && p.riskScore <= 60;
+                    if (currentFilter === 'high') return p.riskScore > 60;
+                    return true;
+                });
+            }
+
+            if (filteredProjects.length === 0) {
+                container.innerHTML = '<p style="color: var(--color-text-muted); text-align: center; padding: 3rem;">No projects match the selected filter.</p>';
+                return;
+            }
+
+            container.innerHTML = filteredProjects.map(p => `
+                <div class="card" style="margin-bottom: 1.5rem;">
+                    <div class="project-header">
+                        <div>
+                            <div class="project-title">${p.name}</div>
+                            <div style="color: var(--color-text-muted); font-size: 0.875rem; margin-top: 0.25rem;">
+                                ${p.organization} • ${p.facilityType} • ${p.type}
+                            </div>
+                        </div>
+                        <span class="badge ${p.riskScore <= 30 ? 'badge-success' : p.riskScore <= 60 ? 'badge-warning' : 'badge-danger'}">
+                            ${p.riskCategory}
+                        </span>
+                    </div>
+
+                    <div class="grid grid-2" style="margin: 1.5rem 0;">
+                        <div>
+                            <h3>Financial Overview</h3>
+                            <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.75rem;">
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span style="color: var(--color-text-muted);">Investment:</span>
+                                    <strong>฿${p.investment}M</strong>
+                                </div>
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span style="color: var(--color-text-muted);">Expected Savings:</span>
+                                    <strong>${p.savings}%</strong>
+                                </div>
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span style="color: var(--color-text-muted);">Payback Period:</span>
+                                    <strong>${p.payback} years</strong>
+                                </div>
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span style="color: var(--color-text-muted);">Facility Size:</span>
+                                    <strong>${p.facilitySize.toLocaleString()} m²</strong>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3>Risk Assessment</h3>
+                            <div style="margin-top: 0.75rem;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                    <span>Overall Risk Score</span>
+                                    <strong style="color: ${p.riskScore <= 30 ? 'var(--color-success)' : p.riskScore <= 60 ? 'var(--color-warning)' : 'var(--color-danger)'}">
+                                        ${p.riskScore}/100
+                                    </strong>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: ${p.riskScore}%; background: ${p.riskScore <= 30 ? 'var(--color-success)' : p.riskScore <= 60 ? 'var(--color-warning)' : 'var(--color-danger)'}">
+                                        ${p.riskCategory}
+                                    </div>
+                                </div>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-top: 1rem; font-size: 0.875rem;">
+                                    <div>Technical: ${p.technicalRisk}/25</div>
+                                    <div>Financial: ${p.financialRisk}/30</div>
+                                    <div>Organizational: ${p.organizationalRisk}/25</div>
+                                    <div>Performance: ${p.performanceRisk}/20</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="background: var(--color-bg); padding: 1rem; border-radius: 6px; margin-top: 1rem;">
+                        <strong>Project Description:</strong>
+                        <p style="margin-top: 0.5rem; color: var(--color-text-muted);">
+                            ${p.description || 'No description provided.'}
+                        </p>
+                    </div>
+
+                    <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                        <button class="btn btn-primary" onclick="requestContact('${p.id}')">
+                            Request Contact Information
+                        </button>
+                        <button class="btn btn-secondary" onclick="viewProjectDetails('${p.id}')">
+                            View Full Details
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Filter projects
+        function filterProjects(filter) {
+            currentFilter = filter;
+            
+            document.querySelectorAll('#investor-portal .tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            updateInvestorPortal();
+        }
+
+        // Request contact information
+        function requestContact(projectId) {
+            const project = projects.find(p => p.id === projectId);
+            if (project) {
+                alert(`Contact Information for ${project.name}:\n\nOrganization: ${project.organization}\nContact: ${project.contactPerson}\nEmail: ${project.email}\nPhone: ${project.phone}\n\nThis information has been logged. The project owner will be notified of your interest.`);
+            }
+        }
+
+        // View project details
+        function viewProjectDetails(projectId) {
+            const project = projects.find(p => p.id === projectId);
+            if (project) {
+                alert(`Detailed project information would be displayed here.\n\nProject ID: ${project.id}\nRisk Level: ${project.riskLevel}\nTechnology: ${project.techMaturity}\nBaseline Quality: ${project.baselineQuality}\nContractor: ${project.contractorRecord}\nM&V Plan: ${project.mvPlan}`);
+            }
+        }
+
+        // CSV Upload Handling
+        function handleCSVUpload(event) {
+            const file = event.target.files[0];
+            const projectId = document.getElementById('uploadProjectId').value;
+            
+            if (!projectId) {
+                document.getElementById('uploadErrorMessage').textContent = '✗ Please select a project first.';
+                document.getElementById('uploadErrorMessage').style.display = 'block';
+                setTimeout(() => {
+                    document.getElementById('uploadErrorMessage').style.display = 'none';
+                }, 3000);
+                return;
+            }
+
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const text = e.target.result;
+                const rows = text.split('\n').map(row => row.split(','));
+                
+                // Skip header row
+                for (let i = 1; i < rows.length; i++) {
+                    if (rows[i].length < 8) continue;
+                    
+                    const data = {
+                        project_id: projectId,
+                        timestamp: rows[i][1].trim(),
+                        flow_in: parseFloat(rows[i][2]),
+                        flow_out: parseFloat(rows[i][3]),
+                        temp_in: parseFloat(rows[i][4]),
+                        temp_out: parseFloat(rows[i][5]),
+                        power: parseFloat(rows[i][6]),
+                        ambient_temp: parseFloat(rows[i][7])
+                    };
+
+                    // Calculate efficiency
+                    const deltaT = data.temp_in - data.temp_out;
+                    const coolingLoad = data.flow_in * deltaT * 4.187 / 3.517; // TR
+                    data.efficiency = data.power / coolingLoad; // kW/TR
+
+                    sensorData.push(data);
+                }
+
+                document.getElementById('uploadSuccessMessage').style.display = 'block';
+                setTimeout(() => {
+                    document.getElementById('uploadSuccessMessage').style.display = 'none';
+                }, 3000);
+
+                updateDashboard();
+            };
+            reader.readAsText(file);
+        }
+
+        // Download sample CSV
+        function downloadSampleCSV() {
+            const csv = `project_id,timestamp,flow_in,flow_out,temp_in,temp_out,power,ambient_temp
+PROJ-001,2026-03-12 13:00:00,150.5,150.2,12.5,7.0,85.3,32.5
+PROJ-001,2026-03-12 13:15:00,152.0,151.8,12.3,7.2,86.1,32.8
+PROJ-001,2026-03-12 13:30:00,148.5,148.3,12.7,6.8,84.5,32.2`;
+
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'sample_sensor_data.csv';
+            a.click();
+        }
+
+        // Switch upload tabs
+        function switchUploadTab(tab) {
+            document.querySelectorAll('#data-integration .tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            document.getElementById('csv-upload').classList.remove('active');
+            document.getElementById('api-upload').classList.remove('active');
+            document.getElementById(tab + '-upload').classList.add('active');
+        }
+
+        // Test API connection
+        function testAPIConnection() {
+            alert('API Connection Test\n\nEndpoint: /api/sensor-data\nMethod: POST\nStatus: Ready\n\nYou can now send JSON data to this endpoint.\n\nExample curl command:\ncurl -X POST http://localhost:5000/api/sensor-data \\\n  -H "Content-Type: application/json" \\\n  -d \'{"project_id":"PROJ-001","timestamp":"2026-03-12 13:45:00","flow_in":150.5,"flow_out":150.2,"temp_in":12.5,"temp_out":7.0,"power":85.3,"ambient_temp":32.5}\'');
+        }
+
+        // Update project selectors
+        function updateProjectSelectors() {
+            const selector = document.getElementById('uploadProjectId');
+            selector.innerHTML = '<option value="">Select project...</option>' + 
+                projects.map(p => `<option value="${p.id}">${p.id} - ${p.name}</option>`).join('');
+        }
+
+        // Load mock data for demonstration
+        function loadMockData() {
+            // Add sample project
+            const sampleProject = {
+                id: 'PROJ-001',
+                name: 'Central Plaza Chiller Upgrade',
+                type: 'chiller',
+                facilityType: 'retail',
+                facilitySize: 12000,
+                investment: 8.5,
+                savings: 32,
+                payback: 4.2,
+                energyIntensity: 280,
+                techMaturity: 'proven',
+                baselineQuality: 'excellent',
+                contractorRecord: 'excellent',
+                mvPlan: 'comprehensive',
+                organization: 'Central Plaza Management',
+                contactPerson: 'Somchai Prasert',
+                email: 'somchai@centralplaza.com',
+                phone: '+66 2-555-1234',
+                description: 'Replace aging chillers with high-efficiency units and optimize control systems.',
+                submittedDate: new Date().toISOString(),
+                status: 'active'
+            };
+
+            const riskScore = calculateRiskScore(sampleProject);
+            sampleProject.riskScore = riskScore.overall;
+            sampleProject.riskCategory = riskScore.category;
+            sampleProject.riskLevel = riskScore.level;
+            sampleProject.technicalRisk = riskScore.technical;
+            sampleProject.financialRisk = riskScore.financial;
+            sampleProject.organizationalRisk = riskScore.organizational;
+            sampleProject.performanceRisk = riskScore.performance;
+
+            projects.push(sampleProject);
+
+            // Add sample sensor data
+            const now = new Date();
+            for (let i = 0; i < 24; i++) {
+                const timestamp = new Date(now - i * 15 * 60 * 1000);
+                const data = {
+                    project_id: 'PROJ-001',
+                    timestamp: timestamp.toISOString().slice(0, 19).replace('T', ' '),
+                    flow_in: 148 + Math.random() * 8,
+                    flow_out: 147 + Math.random() * 8,
+                    temp_in: 12 + Math.random() * 1.5,
+                    temp_out: 6.5 + Math.random() * 1.5,
+                    power: 83 + Math.random() * 6,
+                    ambient_temp: 31 + Math.random() * 3
+                };
+
+                const deltaT = data.temp_in - data.temp_out;
+                const coolingLoad = data.flow_in * deltaT * 4.187 / 3.517;
+                data.efficiency = data.power / coolingLoad;
+
+                sensorData.unshift(data);
+            }
+        }
+    </script>
+</body>
+</html>
